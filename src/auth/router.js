@@ -4,16 +4,16 @@ const express = require('express');
 const router = express.Router();
 const users = require('./models/users/users-model');
 const basic = require('./middleware/basic');
-const oath = require('./middleware/oath');
+// const oath = require('./middleware/oath');
 
 router.post('/signup',signupHandler);
 router.post('/signin', basic , signinHandler);
 router.get('/users', listHandler);
 
-router.get('/oauth', oath , (req,res)=>{
-  console.log('token',req.token);
-  res.status(200).send(req.token);
-});
+// router.get('/oauth', oath , (req,res)=>{
+//   console.log('token',req.token);
+//   res.status(200).send(req.token);
+// });
 
 async function signupHandler (req,res){
   try{

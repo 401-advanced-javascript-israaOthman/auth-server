@@ -7,7 +7,7 @@ const CLIENT_ID =  process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const tokenServerUrl = process.env.tokenServerUrl; //to get the token
 const remoteUserApi = process.env.remoteUserApi; // to get the user 
-// const tokenServerUrl = 'http://github.com/login/oauth/access_token';
+// const tokenServerUrl = 'https://github.com/login/oauth/access_token';
 // const remoteUserApi = 'https://api.github.com/user';
 const API_SERVER = process.env.API_SERVER;
 
@@ -16,8 +16,13 @@ module.exports = async (req,res,next)=>{
 // now I will call the functions 
   try{
     let code = req.query.code; //from the form 
+    console.log('codeeee',code);
+
     let remoteToken = await exchangeCodeForToken(code);
+    console.log('remoteTokennnnnnn',remoteToken);
+
     let remoteUser = await getRemoteUser(remoteToken);
+    console.log('remoteUserrrrrr',remoteUser);
     let [user,token]=await getUser(remoteUser);
     req.user = user;
     req.token = token;
@@ -25,13 +30,10 @@ module.exports = async (req,res,next)=>{
     next();
 
   }catch(err){
-    console.log('error',err);
+    console.log('error',err.message);
     next();
   }
 
-
-
- 
 };
 
 // 1- login with superagent => get the token 
