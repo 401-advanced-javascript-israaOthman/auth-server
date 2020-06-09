@@ -34,21 +34,23 @@ class Users extends Model {
   }
 
   //this function for thr Bearer 
-  verifyToken(token){ 
+  async verifyToken(token){ //here we use the verity method to check if this token is valid 
+    try {
+      const obj = await jwt.verify(token,SECRET);
+      const data = await this.get({username: obj.username});
 
-    return jwt.verify(token,SECRET,function(err,decoded){//here we use the verity method to check if this token is valid 
-      if(err){
-        console.log('errrrr', err);
-        return Promise.reject(err);
-      }
-      let username = decoded['username'];
-      let data = this.get({username: username});
+      // console.log('dataaaa',data.schema);
 
-      if(data[username]){ // if the token is valid we need to check if it is in our DB
-        return Promise.resolve(decoded);
+      if(data.length !== 0){ // if the token is valid we need to check if it is in our DB
+        return Promise.resolve(data[0]);
       }
       return Promise.reject();
-    });
+    }
+    catch(e){
+      console.log('errrrr', e);
+      return Promise.reject(e);
+    }
   }
 }
+
 module.exports = new Users();

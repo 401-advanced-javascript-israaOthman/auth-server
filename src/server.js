@@ -24,16 +24,6 @@ app.get('/',(req,res)=>{
 });
 
 
-///////////////////////////////////////////////////////////////////
-
-const bearer = require('../src/auth/middleware/bearer-auth');
-
-app.get('/secret', bearer,(req,res)=>{
-  res.status(200).json(req.user);
-});
-
-////////////////////////////////////////////////////////////
-
 
 app.use('*', notFound); 
 app.use(serverError); 

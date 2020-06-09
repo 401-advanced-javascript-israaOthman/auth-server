@@ -7,8 +7,7 @@ const CLIENT_ID =  process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const tokenServerUrl = process.env.tokenServerUrl; //to get the token
 const remoteUserApi = process.env.remoteUserApi; // to get the user 
-// const tokenServerUrl = 'https://github.com/login/oauth/access_token';
-// const remoteUserApi = 'https://api.github.com/user';
+
 const API_SERVER = process.env.API_SERVER;
 
 module.exports = async (req,res,next)=>{

@@ -5,13 +5,16 @@ const router = express.Router();
 const users = require('./models/users/users-model');
 const basic = require('./middleware/basic');
 const oath = require('../auth/middleware/oath');
+const bearerMiddleware = require('../auth/middleware/bearer-auth');
 
 
 router.post('/signup',signupHandler);
 router.post('/signin', basic , signinHandler);
 router.get('/users', listHandler);
 
-router.get('/oauth', oath , oathHandler)
+router.get('/oauth', oath , oathHandler);
+router.get('/secret', bearerMiddleware, bearerHandler);
+
 
 function oathHandler (req,res){
   res.cookie('token', req.token, {
@@ -19,6 +22,15 @@ function oathHandler (req,res){
   });
   res.status(200).send(req.token);
 }
+
+function bearerHandler(req,res){
+  res.cookie('token', req.token, {
+    expires  : new Date(Date.now() + 100000),
+    httpOnly : false,
+  });
+  res.status(200).json(req.user);
+}
+
 
 async function signupHandler (req,res){
   try{
