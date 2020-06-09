@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Auth Test</title>
+    </head>
+    <body>
+        <main>
+            <a id="oauth" href="#">Login</a>
+        </main>
+    <script>
+    
+        let URL =  "https://github.com/login/oauth/authorize";
+
+        let options = {
+            // client_id: process.env.CLIENT_ID,
+            client_id:'4a1f1b6ffe2a5bef2d1f',
+            redirect: 'http://localhost:3000/oauth',
+            scope: 'read:user', //what you return to me
+            state: 'oauthstate'
+        }
+        // loop thro the options and encode them then concatenate with the url    
+        let QueryString = Object.keys(options).map((key)=> {
+            return `${key}=` + encodeURIComponent(options[key])
+        }).join("&"); // pairs key=value&ley2=value2
+ 
+        let authURL = `${URL}?${QueryString}`;
+
+        // to pass the new url to the link <a>
+        let link = document.getElementById("oauth");
+        link.setAttribute('href', authURL);
+
+    </script>
+    </body>
+</html>
