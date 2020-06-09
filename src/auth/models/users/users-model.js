@@ -32,5 +32,23 @@ class Users extends Model {
     const token =  jwt.sign({username: user.username}, SECRET);
     return token;
   }
+
+  //this function for thr Bearer 
+  verifyToken(token){ 
+
+    return jwt.verify(token,SECRET,function(err,decoded){//here we use the verity method to check if this token is valid 
+      if(err){
+        console.log('errrrr', err);
+        return Promise.reject(err);
+      }
+      let username = decoded['username'];
+      let data = this.get({username: username});
+
+      if(data[username]){ // if the token is valid we need to check if it is in our DB
+        return Promise.resolve(decoded);
+      }
+      return Promise.reject();
+    });
+  }
 }
 module.exports = new Users();

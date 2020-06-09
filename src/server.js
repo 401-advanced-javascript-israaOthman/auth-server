@@ -24,16 +24,15 @@ app.get('/',(req,res)=>{
 });
 
 
-const oath = require('../src/auth/middleware/oath');
+///////////////////////////////////////////////////////////////////
 
-app.get('/oauth', oath , (req,res)=>{
-  res.cookie('token', req.token, {
-    httpOnly : false,
-  });
-  // console.log('token',req.token);
-  res.status(200).send(req.token);
+const bearer = require('../src/auth/middleware/bearer-auth');
+
+app.get('/secret', bearer,(req,res)=>{
+  res.status(200).json(req.user);
 });
 
+////////////////////////////////////////////////////////////
 
 
 app.use('*', notFound); 
