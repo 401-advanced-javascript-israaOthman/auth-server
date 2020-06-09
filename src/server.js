@@ -27,7 +27,10 @@ app.get('/',(req,res)=>{
 const oath = require('../src/auth/middleware/oath');
 
 app.get('/oauth', oath , (req,res)=>{
-  console.log('token',req.token);
+  res.cookie('token', req.token, {
+    httpOnly : false,
+  });
+  // console.log('token',req.token);
   res.status(200).send(req.token);
 });
 
