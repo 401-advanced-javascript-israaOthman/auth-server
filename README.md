@@ -5,7 +5,8 @@
 
 ## Links and Resourcs 
   -  [lab-11 PR](https://github.com/401-advanced-javascript-israaOthman/auth-server/pull/1)  
-
+  -  [lab-12 PR](https://github.com/401-advanced-javascript-israaOthman/auth-server/pull/4)  
+  -  [lab-13 PR](https://github.com/401-advanced-javascript-israaOthman/auth-server/pull/3)  
 
 
 
