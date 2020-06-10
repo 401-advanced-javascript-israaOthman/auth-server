@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const router = require('./auth/router');
-
+const router2 =require('./auth/extra-routes');
 const notFound = require('./middleware/404');
 const serverError = require('./middleware/500');
 
@@ -16,6 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use(router);
+app.use(router2);
+
 
 app.use(express.static('./public'));
  

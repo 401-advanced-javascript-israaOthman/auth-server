@@ -7,6 +7,8 @@
   -  [lab-11 PR](https://github.com/401-advanced-javascript-israaOthman/auth-server/pull/1)  
   -  [lab-12 PR](https://github.com/401-advanced-javascript-israaOthman/auth-server/pull/4)  
   -  [lab-13 PR](https://github.com/401-advanced-javascript-israaOthman/auth-server/pull/3)  
+  -  [lab-15 PR](https://github.com/401-advanced-javascript-israaOthman/auth-server/pull/5)  
+
 
 
 
@@ -28,6 +30,10 @@
     + body = {username : 'some name' , password : 'pass'}
 -  signin : POST -  http://localhost:3000/signup/
     + Authoraization --> enter the username and the paeeword 
+- add : POST - http://localhost:3000/add
+- read: GET - http://localhost:3000/read
+- change : PUT - http://localhost:3000/change
+- delete : DELETE - http://localhost:3000/delete
    
 
   # UML 
