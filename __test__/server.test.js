@@ -7,20 +7,13 @@ const mockRequest = supergoose(server);
 
 describe('testing the server',()=>{
 
-  it('should respond with 500',()=>{
-    return mockRequest.get('/bad')
-      .then(results=> {
-        expect(results.status).toBe(500);
-      }).catch(console.error);
-  });
-
   it('should respond 404 of an invalid route',() => {
 
     return mockRequest
       .get('/anything')
       .then(results => {
         expect(results.status).toBe(404);
-      }).catch(console.log);
+      });
   });
 
   it('should respond properly /', ()=> {
@@ -45,9 +38,20 @@ describe('testing the server',()=>{
       .post('/signup')
       .send(test)
       .then(data => {
-        expect(data.status).toBe(500);
+        expect(data.status).toBe(200);
       });
   });
+
+  it('POST  /signup 500', async() => {
+    let test = { 'username': 'israa'};
+    mockRequest
+      .post('/signup')
+      .send(test)
+      .then(data => {
+        expect(data.status).toBe(403);
+      });
+  });
+
 
 });
 
