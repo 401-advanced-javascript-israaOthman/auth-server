@@ -5,6 +5,7 @@ const Model = require('../mongo');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const SECRET = process.env.SECRET || 'secret';
+const TOKEN_EXPIRE = process.env.TOKEN_EXPIRE || 60 ;
 
 
 class Users extends Model {
@@ -29,7 +30,13 @@ class Users extends Model {
   }
   
   generateToken(user){
-    const token =  jwt.sign({username: user.username}, SECRET);
+    // console.log('useeer',user);
+    // let options = {expiresIn:TOKEN_EXPIRE};
+    // if(!!TOKEN_EXPIRE){
+    //   options= {expiresIn:TOKEN_EXPIRE};
+    // }
+    let tokenn = {id: user._id };
+    const token =  jwt.sign(tokenn, SECRET);
     return token;
   }
 
@@ -37,7 +44,7 @@ class Users extends Model {
   async verifyToken(token){ //here we use the verity method to check if this token is valid 
     try {
       const obj = await jwt.verify(token,SECRET);
-      const data = await this.get({username: obj.username});
+      const data = await this.get({id: obj._id});
 
       // console.log('dataaaa',data.schema);
 
@@ -47,7 +54,7 @@ class Users extends Model {
       return Promise.reject();
     }
     catch(e){
-      console.log('errrrr', e);
+      // console.log('errrrr', e);
       return Promise.reject(e);
     }
   }
