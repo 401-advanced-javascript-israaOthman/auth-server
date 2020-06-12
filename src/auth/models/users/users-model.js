@@ -12,6 +12,7 @@ let roles = {
   editor : ['read' ,'add' , 'change'],
   admin :  ['read' ,'add' , 'change' , 'remove'],
 };
+
 class Users extends Model {
   constructor(){
     super(schema);
@@ -43,6 +44,7 @@ class Users extends Model {
   }
 
   can(permision){
+    // console.log('this roleeeeee',this.role);
     if(permision){
       return Promise.resolve(true);
     }
@@ -50,6 +52,25 @@ class Users extends Model {
       return Promise.resolve(false);
     }
   }
+
+  // // this function for thr Bearer 
+  // async verifyToken(token){ //here we use the verity method to check if this token is valid 
+  //   try {
+  //     const obj = await jwt.verify(token,SECRET);
+  //     const data = await this.get({username: obj.username});
+
+  //     console.log('dataaaa',data);
+
+  //     if(data.length !== 0){ // if the token is valid we need to check if it is in our DB
+  //       return Promise.resolve(data[0]);
+  //     }
+  //     return Promise.reject();
+  //   }
+  //   catch(e){
+  //     console.log('errrrr', e);
+  //     return Promise.reject(e);
+  //   }
+  // }
 
   verifyToken(token) {
     const scema = this.schema;
