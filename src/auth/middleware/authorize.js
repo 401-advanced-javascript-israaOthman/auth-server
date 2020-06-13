@@ -10,7 +10,7 @@ module.exports = (capability) =>{
         if(data){
           next();
         }else{
-          next('Access Denied');
+          next('you don\'t have access to this rout');
         }
       }).catch(e => {
         next('Invalid login');

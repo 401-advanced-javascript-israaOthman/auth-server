@@ -36,10 +36,9 @@ class Users extends Model {
   
   generateToken(user){
     const token =  jwt.sign({
-      username: user.username,
+      id: user._id,
       capabities: roles[user.role],
     }, SECRET);
-    // console.log('useeeeeeer',user);
     return token;
   }
 
@@ -78,7 +77,7 @@ class Users extends Model {
       if (err) {
         return Promise.reject(err);
       }
-      const result = await scema.findOne({ username: decoded.username });
+      const result = await scema.findOne({ id: decoded._id });
       if (result) {
         return Promise.resolve(decoded);
       } 
