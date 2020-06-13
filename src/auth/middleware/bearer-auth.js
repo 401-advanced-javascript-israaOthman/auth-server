@@ -13,6 +13,7 @@ module.exports = (req,res,next)=>{
   let token = req.headers.authorization.split(' ').pop();
   users.verifyToken(token) //here eather we will receve reject/resolve so we need to deal with both 
     .then(userObject =>{
+      // console.log('userObject .....', userObject);
       req.user = userObject;
       next();
     })

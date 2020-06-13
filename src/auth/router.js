@@ -7,7 +7,6 @@ const basic = require('./middleware/basic');
 const oath = require('../auth/middleware/oath');
 const bearerMiddleware = require('../auth/middleware/bearer-auth');
 
-
 router.post('/signup',signupHandler);
 router.post('/signin', basic , signinHandler);
 router.get('/users', listHandler);

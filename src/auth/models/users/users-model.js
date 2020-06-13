@@ -6,6 +6,12 @@ const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const SECRET = process.env.SECRET || 'secret';
 
+let roles = {
+  user :  ['read'],
+  writer : ['read' ,'add'],
+  editor : ['read' ,'add' , 'change'],
+  admin :  ['read' ,'add' , 'change' , 'remove'],
+};
 
 class Users extends Model {
   constructor(){
@@ -29,27 +35,56 @@ class Users extends Model {
   }
   
   generateToken(user){
-    const token =  jwt.sign({username: user.username}, SECRET);
+    const token =  jwt.sign({
+      id: user._id,
+      capabities: roles[user.role],
+    }, SECRET);
     return token;
   }
 
-  //this function for thr Bearer 
-  async verifyToken(token){ //here we use the verity method to check if this token is valid 
-    try {
-      const obj = await jwt.verify(token,SECRET);
-      const data = await this.get({username: obj.username});
+  can(permision){
+    // console.log('this roleeeeee',this.role);
+    if(permision){
+      return Promise.resolve(true);
+    }
+    else{
+      return Promise.resolve(false);
+    }
+  }
 
-      // console.log('dataaaa',data.schema);
+  // // this function for thr Bearer 
+  // async verifyToken(token){ //here we use the verity method to check if this token is valid 
+  //   try {
+  //     const obj = await jwt.verify(token,SECRET);
+  //     const data = await this.get({username: obj.username});
 
-      if(data.length !== 0){ // if the token is valid we need to check if it is in our DB
-        return Promise.resolve(data[0]);
+  //     console.log('dataaaa',data);
+
+  //     if(data.length !== 0){ // if the token is valid we need to check if it is in our DB
+  //       return Promise.resolve(data[0]);
+  //     }
+  //     return Promise.reject();
+  //   }
+  //   catch(e){
+  //     console.log('errrrr', e);
+  //     return Promise.reject(e);
+  //   }
+  // }
+
+  verifyToken(token) {
+    const scema = this.schema;
+    return jwt.verify(token, SECRET, async function(err, decoded) {
+      if (err) {
+        return Promise.reject(err);
       }
+      const result = await scema.findOne({ id: decoded._id });
+      if (result) {
+        return Promise.resolve(decoded);
+      } 
       return Promise.reject();
-    }
-    catch(e){
-      console.log('errrrr', e);
-      return Promise.reject(e);
-    }
+    });
+
+
   }
 }
 
